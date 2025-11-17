@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Telegram'a Git</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-image: url("photo_2025-11-17_15-42-19.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      .telegram-button {
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .telegram-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .telegram-button:active {
+        transform: translateY(-2px);
+      }
+
+      .backdrop-layer {
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(2px);
+      }
+
+      @keyframes pulse-slow {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.05);
+        }
+      }
+
+      .animate-pulse-slow {
+        animation: pulse-slow 3s ease-in-out infinite;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen w-full overflow-hidden cursor-pointer"
+    onclick="redirectToTelegram()"
+  >
+    <!-- Backdrop layer -->
+    <div class="backdrop-layer absolute inset-0"></div>
+
+    <!-- Content container -->
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <div class="text-center">
+        <!-- Telegram Icon with pulse animation -->
+        <div class="mb-8 flex justify-center animate-pulse-slow">
+          <svg
+            class="w-24 h-24 md:w-32 md:h-32 text-white drop-shadow-2xl"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"
+            />
+          </svg>
+        </div>
+
+        <!-- Main button -->
+        <button
+          onclick="redirectToTelegram()"
+          class="telegram-button bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-xl md:text-2xl px-12 md:px-16 py-5 md:py-6 rounded-full focus:outline-none focus:ring-4 focus:ring-blue-300"
+        >
+          <span class="flex items-center gap-3">
+            <svg
+              class="w-7 h-7 md:w-8 md:h-8"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"
+              />
+            </svg>
+            Telegram'a Git
+          </span>
+        </button>
+
+        <!-- Subtitle text -->
+        <p
+          class="mt-6 text-white text-sm md:text-base font-medium drop-shadow-lg"
+        >
+          Telegram kanalımıza katılmak için tıklayın
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Telegram URL'nizi buraya ekleyin
+      const TELEGRAM_URL = "https://t.me/+pL9wqg2hzB9iYTM0"; // Bu kısmı kendi Telegram adresinizle değiştirin
+
+      function redirectToTelegram() {
+        window.location.href = TELEGRAM_URL;
+      }
+
+      // Prevent default link behavior on the entire page
+      document.addEventListener("click", function (e) {
+        e.preventDefault();
+        redirectToTelegram();
+      });
+    </script>
+  </body>
+</html>
