@@ -48,17 +48,120 @@
       .animate-pulse-slow {
         animation: pulse-slow 3s ease-in-out infinite;
       }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-out {
+        animation: fadeOut 0.5s ease-out forwards;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+
+      .verification-screen {
+        opacity: 1;
+      }
+
+      .main-content {
+        opacity: 0;
+        display: none;
+      }
+
+      .main-content.show {
+        display: flex;
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+
+      .spinner {
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 3px solid white;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
-  <body
-    class="min-h-screen w-full overflow-hidden cursor-pointer"
-    onclick="redirectToTelegram()"
-  >
+  <body class="min-h-screen w-full overflow-hidden">
     <!-- Backdrop layer -->
     <div class="backdrop-layer absolute inset-0"></div>
 
-    <!-- Content container -->
-    <div class="relative min-h-screen flex items-center justify-center p-4">
+    <!-- Verification Screen -->
+    <div
+      id="verificationScreen"
+      class="verification-screen relative min-h-screen flex items-center justify-center p-4"
+    >
+      <div class="text-center">
+        <!-- Shield Icon -->
+        <div class="mb-6 flex justify-center">
+          <svg
+            class="w-20 h-20 md:w-24 md:h-24 text-white drop-shadow-2xl"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            />
+          </svg>
+        </div>
+
+        <!-- Verification Text -->
+        <h1
+          class="text-white text-2xl md:text-3xl font-bold mb-4 drop-shadow-lg"
+        >
+          İnsan Olduğunuzu Doğruluyoruz
+        </h1>
+
+        <!-- Spinner -->
+        <div class="flex justify-center mb-4">
+          <div class="spinner"></div>
+        </div>
+
+        <!-- Additional text -->
+        <p class="text-white text-sm md:text-base opacity-80 drop-shadow-lg">
+          Lütfen bekleyin...
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Content (Hidden initially) -->
+    <div
+      id="mainContent"
+      class="main-content relative min-h-screen items-center justify-center p-4 cursor-pointer"
+      onclick="redirectToTelegram()"
+    >
       <div class="text-center">
         <!-- Telegram Icon with pulse animation -->
         <div class="mb-8 flex justify-center animate-pulse-slow">
@@ -103,17 +206,35 @@
 
     <script>
       // Telegram URL'nizi buraya ekleyin
-      const TELEGRAM_URL = "https://t.me/+pL9wqg2hzB9iYTM0"; // Bu kısmı kendi Telegram adresinizle değiştirin
+      const TELEGRAM_URL = "https://t.me/yourusername"; // Bu kısmı kendi Telegram adresinizle değiştirin
+
+      // 3 saniye sonra ana içeriği göster
+      setTimeout(function () {
+        const verificationScreen =
+          document.getElementById("verificationScreen");
+        const mainContent = document.getElementById("mainContent");
+
+        // Doğrulama ekranını kapat
+        verificationScreen.classList.add("fade-out");
+
+        // Animasyon bittikten sonra
+        setTimeout(function () {
+          verificationScreen.style.display = "none";
+          mainContent.classList.add("show");
+        }, 500);
+      }, 3000);
 
       function redirectToTelegram() {
         window.location.href = TELEGRAM_URL;
       }
 
-      // Prevent default link behavior on the entire page
-      document.addEventListener("click", function (e) {
-        e.preventDefault();
-        redirectToTelegram();
-      });
+      // Prevent default link behavior on main content
+      document
+        .getElementById("mainContent")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          redirectToTelegram();
+        });
     </script>
   </body>
 </html>
