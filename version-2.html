@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Telegram'a Git</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-image: url("photo_2025-11-17_15-42-19.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      .telegram-button {
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .telegram-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .telegram-button:active {
+        transform: translateY(-2px);
+      }
+
+      .backdrop-layer {
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(2px);
+      }
+
+      @keyframes pulse-slow {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.05);
+        }
+      }
+
+      .animate-pulse-slow {
+        animation: pulse-slow 3s ease-in-out infinite;
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-out {
+        animation: fadeOut 0.5s ease-out forwards;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+
+      .verification-screen {
+        opacity: 1;
+      }
+
+      .main-content {
+        opacity: 0;
+        display: none;
+      }
+
+      .main-content.show {
+        display: flex;
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+
+      .spinner {
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 3px solid white;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen w-full overflow-hidden">
+    <!-- Backdrop layer -->
+    <div class="backdrop-layer absolute inset-0"></div>
+
+    <!-- Verification Screen -->
+    <div
+      id="verificationScreen"
+      class="verification-screen relative min-h-screen flex items-center justify-center p-4"
+    >
+      <div class="text-center">
+        <!-- Shield Icon -->
+        <div class="mb-6 flex justify-center">
+          <svg
+            class="w-20 h-20 md:w-24 md:h-24 text-white drop-shadow-2xl"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            />
+          </svg>
+        </div>
+
+        <!-- Verification Text -->
+        <h1
+          class="text-white text-2xl md:text-3xl font-bold mb-4 drop-shadow-lg"
+        >
+          İnsan Olduğunuzu Doğruluyoruz
+        </h1>
+
+        <!-- Spinner -->
+        <div class="flex justify-center mb-4">
+          <div class="spinner"></div>
+        </div>
+
+        <!-- Additional text -->
+        <p class="text-white text-sm md:text-base opacity-80 drop-shadow-lg">
+          Lütfen bekleyin...
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Content (Hidden initially) -->
+    <div
+      id="mainContent"
+      class="main-content relative min-h-screen items-center justify-center p-4 cursor-pointer"
+      onclick="redirectToTelegram()"
+    >
+      <div class="text-center">
+        <!-- Telegram Icon with pulse animation -->
+        <div class="mb-8 flex justify-center animate-pulse-slow">
+          <svg
+            class="w-24 h-24 md:w-32 md:h-32 text-white drop-shadow-2xl"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"
+            />
+          </svg>
+        </div>
+
+        <!-- Main button -->
+        <button
+          onclick="redirectToTelegram()"
+          class="telegram-button bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold text-xl md:text-2xl px-12 md:px-16 py-5 md:py-6 rounded-full focus:outline-none focus:ring-4 focus:ring-blue-300"
+        >
+          <span class="flex items-center gap-3">
+            <svg
+              class="w-7 h-7 md:w-8 md:h-8"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"
+              />
+            </svg>
+            Telegram'a Git
+          </span>
+        </button>
+
+        <!-- Subtitle text -->
+        <p
+          class="mt-6 text-white text-sm md:text-base font-medium drop-shadow-lg"
+        >
+          Telegram kanalımıza katılmak için tıklayın
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Telegram URL'nizi buraya ekleyin
+      const TELEGRAM_URL = "https://t.me/+E7RnKaHSZf5lNGFk"; // Bu kısmı kendi Telegram adresinizle değiştirin
+
+      // 3 saniye sonra ana içeriği göster
+      setTimeout(function () {
+        const verificationScreen =
+          document.getElementById("verificationScreen");
+        const mainContent = document.getElementById("mainContent");
+
+        // Doğrulama ekranını kapat
+        verificationScreen.classList.add("fade-out");
+
+        // Animasyon bittikten sonra
+        setTimeout(function () {
+          verificationScreen.style.display = "none";
+          mainContent.classList.add("show");
+        }, 500);
+      }, 1500);
+
+      function redirectToTelegram() {
+        window.location.href = TELEGRAM_URL;
+      }
+
+      // Prevent default link behavior on main content
+      document
+        .getElementById("mainContent")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          redirectToTelegram();
+        });
+    </script>
+  </body>
+</html>
